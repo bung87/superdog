@@ -177,9 +177,14 @@ module LibSuperdog
     typealias 'HANDLE', 'void*'
     typealias "dog_handle_t","dog_u32_t"
     typealias "dog_status_t", "unsigned int"
+    typealias "dog_feature_t", "dog_u32_t"
+    typealias "dog_vendor_code_t", "const void*"
+    
     unless WIN
         extern 'dog_status_t dog_encrypt(dog_handle_t,HANDLE,dog_size_t)'
         extern 'dog_status_t dog_decrypt(dog_handle_t,HANDLE,dog_size_t)'
+        extern 'dog_status_t dog_login(dog_feature_t,dog_vendor_code_t,dog_handle_t*)'
+        extern 'dog_status_t dog_logout(dog_handle_t)'
     else
         extern 'dog_status_t __stdcall dog_encrypt(dog_handle_t,HANDLE,dog_size_t)'
         extern 'dog_status_t __stdcall dog_decrypt(dog_handle_t,HANDLE,dog_size_t)'
@@ -188,6 +193,10 @@ module LibSuperdog
 end
 
 if __FILE__ == $0
-    p LibSuperdog.dog_encrypt('helloworld')
-    p LibSuperdog.dog_decrypt(LibSuperdog.dog_encrypt('helloworld'))
+    feature = 0
+    vender_code =  IO.binread("./Linux/VendorCodes/DEMOMA.hvc")
+    p vender_code
+    p LibSuperdog.dog_login(feature,vender_code)
+    # p LibSuperdog.dog_encrypt('helloworld')
+    # p LibSuperdog.dog_decrypt(LibSuperdog.dog_encrypt('helloworld'))
 end
