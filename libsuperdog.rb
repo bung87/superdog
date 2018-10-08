@@ -7,7 +7,9 @@ else
     require 'dl'
     require 'dl/import'
 end
+
 require 'ffi'
+
 module LibSuperdog
         if RV >= RV22
             extend Fiddle::Importer
@@ -166,11 +168,11 @@ module LibSuperdog
               :DOG_INT_ERR , 699,
           
               :DOG_NEXT_FREE_VALUES ,7001)
+        dlload './Linux/API/Licensing/C/x86_64/lib:DOG_linux_x86_64_demo.so'
         typealias "dog_u32_t", "unsigned int"
         typealias "dog_size_t", "dog_u32_t"
         typealias "dog_handle_t","dog_u32_t"
         typealias "dog_status_t", "enum dog_error_codes"
-        dlload './Linux/API/Licensing/C/x86_64/lib:DOG_linux_x86_64_demo.so'
         extern 'dog_status_t DOG_CALLCONV dog_encrypt(dog_handle_t handle,void *buffer,dog_size_t length)'
         extern 'dog_status_t DOG_CALLCONV dog_decrypt(dog_handle_t handle,void *buffer,dog_size_t length);'
 end
