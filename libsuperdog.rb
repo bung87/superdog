@@ -195,8 +195,9 @@ end
 if __FILE__ == $0
     feature = 0
     vender_code =  IO.binread("./Linux/VendorCodes/DEMOMA.hvc")
-    p vender_code
-    p LibSuperdog.dog_login(feature,vender_code)
-    # p LibSuperdog.dog_encrypt('helloworld')
+    dog_handle = '' # keep a pointer
+    p LibSuperdog.dog_login(feature,vender_code,dog_handle)
+    content = 'helloworld'
+    p LibSuperdog.dog_encrypt(dog_handle,content,content.size)
     # p LibSuperdog.dog_decrypt(LibSuperdog.dog_encrypt('helloworld'))
 end
