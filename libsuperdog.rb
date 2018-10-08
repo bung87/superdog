@@ -10,23 +10,6 @@ end
 
 require 'ffi'
 
-module OsFunctions
-  
-    # universal-darwin9.0 shows up for RUBY_PLATFORM on os X leopard with the bundled ruby. 
-    # Installing ruby in different manners may give a different result, so beware.
-    # Examine the ruby platform yourself. If you see other values please comment
-    # in the snippet on dzone and I will add them.
-    def is_mac?
-      RUBY_PLATFORM.downcase.include?("darwin")
-    end
-    def is_windows?
-       RUBY_PLATFORM.downcase.include?("mswin")
-    end
-    def is_linux?
-       RUBY_PLATFORM.downcase.include?("linux")
-    end
-end
-
 module LibSuperdog
     if RV >= RV22
         extend Fiddle::Importer
@@ -35,6 +18,8 @@ module LibSuperdog
     end
     dlload './Linux/API/Licensing/C/x86_64/libdog_linux_x86_64_demo.so'
     extend FFI::Library
+    WIN = (Object::RUBY_PLATFORM =~ /mswin/i || Object::RUBY_PLATFORM =~ /mingw/i) unless defined?(WIN)
+    # OSX = ( Object::RUBY_PLATFORM =~ /(darwin)/i ? true : false ) unless defined?(OSX)
     dog_error_codes = enum(
             :DOG_STATUS_OK, 0,
             :DOG_MEM_RANGE , 1,
@@ -191,12 +176,12 @@ module LibSuperdog
     typealias "dog_size_t", "dog_u32_t"
     typealias "dog_handle_t","dog_u32_t"
     typealias "dog_status_t", "enum dog_error_codes"
-    if OsFunctions.is_windows?
-        extern 'dog_status_t dog_encrypt(dog_handle_t handle,void *buffer,dog_size_t length)'
-        extern 'dog_status_t dog_decrypt(dog_handle_t handle,void *buffer,dog_size_t length);'
-    else
+    unless WIN
         extern 'dog_status_t __stdcall dog_encrypt(dog_handle_t handle,void *buffer,dog_size_t length)'
         extern 'dog_status_t __stdcall dog_decrypt(dog_handle_t handle,void *buffer,dog_size_t length);'
+    else
+        extern 'dog_status_t dog_encrypt(dog_handle_t handle,void *buffer,dog_size_t length)'
+        extern 'dog_status_t dog_decrypt(dog_handle_t handle,void *buffer,dog_size_t length);'
     end
 
 end
