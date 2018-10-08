@@ -198,6 +198,6 @@ if __FILE__ == $0
     dog_handle = '' # keep a pointer
     p LibSuperdog.dog_login(feature,vender_code,dog_handle)
     content = '1234567890123456'
-    p LibSuperdog.dog_encrypt(dog_handle,content,content.size)
+    p LibSuperdog.dog_encrypt(dog_handle.to_i,content,content.size)
     # p LibSuperdog.dog_decrypt(LibSuperdog.dog_encrypt('helloworld'))
 end
