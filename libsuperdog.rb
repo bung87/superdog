@@ -177,11 +177,11 @@ module LibSuperdog
     typealias "dog_handle_t","dog_u32_t"
     typealias "dog_status_t", "enum dog_error_codes"
     unless WIN
-        extern 'dog_status_t __stdcall dog_encrypt(dog_handle_t handle,void *buffer,dog_size_t length)'
-        extern 'dog_status_t __stdcall dog_decrypt(dog_handle_t handle,void *buffer,dog_size_t length);'
-    else
         extern 'dog_status_t dog_encrypt(dog_handle_t handle,void *buffer,dog_size_t length)'
         extern 'dog_status_t dog_decrypt(dog_handle_t handle,void *buffer,dog_size_t length);'
+    else
+        extern 'dog_status_t __stdcall dog_encrypt(dog_handle_t handle,void *buffer,dog_size_t length)'
+        extern 'dog_status_t __stdcall dog_decrypt(dog_handle_t handle,void *buffer,dog_size_t length);'
     end
 
 end
