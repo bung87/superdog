@@ -179,10 +179,10 @@ module LibSuperdog
     typealias "dog_status_t", "unsigned int"
     unless WIN
         extern 'dog_status_t dog_encrypt(dog_handle_t,HANDLE,dog_size_t)'
-        extern 'dog_status_t dog_decrypt(dog_handle_t,HANDLE,dog_size_t);'
+        extern 'dog_status_t dog_decrypt(dog_handle_t,HANDLE,dog_size_t)'
     else
         extern 'dog_status_t __stdcall dog_encrypt(dog_handle_t,HANDLE,dog_size_t)'
-        extern 'dog_status_t __stdcall dog_decrypt(dog_handle_t,HANDLE,dog_size_t);'
+        extern 'dog_status_t __stdcall dog_decrypt(dog_handle_t,HANDLE,dog_size_t)'
     end
 
 end
